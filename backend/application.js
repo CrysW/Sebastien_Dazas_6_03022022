@@ -5,6 +5,8 @@ require("dotenv").config(); // Importation du package 'dotenv'
 const express = require("express"); // Importation du package 'express'
 const mongoose = require("mongoose"); // Importation du package 'mongoose'
 const userRoutes = require("./routes/user"); // Importation du 'router' pour le parcours des utilisateurs
+const sauceRoutes = require("./routes/sauce"); // Importation du 'router' pour le parcours des sauces
+const path = require("path"); // Importation de 'path' qui donne accès au chemin de fichiers
 
 // CONNEXION A LA BASE DE DONNEES
 mongoose
@@ -41,8 +43,12 @@ application.use(function (request, response, next) {
   next(); // Renvoie au prochain Middleware
 });
 
+// Création d'un middleware qui sert le dossier image
+application.use("/images", express.static(path.join(__dirname, "images")));
+
 // Enregistrement du 'router' pour toutes les demandes effectuées
 application.use("/api/auth", userRoutes);
+application.use("/api/sauces", sauceRoutes);
 
 // EXPORTS
 module.exports = application; // Exportation de l'application 'express'
