@@ -12,12 +12,14 @@ const router = express.Router();
 // CREATION DES 3 ROUTES (CREATE, READ ET DELETE)
 // C => CREATE (Créer) -> Ajout d'une sauce
 // R => READ (Lire) -> Lecture d'une ou des sauces
-// U => UPDATE (Mettre à jour) ->
+// U => UPDATE (Mettre à jour) -> Modification d'une sauce
 // D => DELETE (Supprimer) -> Suppression d'une sauce
 router.post("/", auth, multer, sauceCtrl.addSauce); // Route pour l'ajout d'une sauce
 router.delete("/:id", auth, sauceCtrl.deleteSauce); // Route pour supprimer une sauce
 router.get("/", auth, sauceCtrl.seeAllSauce); // Route pour voir toutes les sauces
 router.get("/:id", auth, sauceCtrl.seeOneSauce); // Route pour voir une sauce
+router.put("/:id", auth, multer, sauceCtrl.modifyASauce); // Route pour modifier une sauce
+router.post("/:id/like", auth, sauceCtrl.likeASauce); // Route pour liker une sauce
 
 // EXPORTS
 module.exports = router; // Exportation du router

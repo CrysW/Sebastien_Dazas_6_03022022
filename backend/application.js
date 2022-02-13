@@ -3,6 +3,7 @@ require("dotenv").config(); // Importation du package 'dotenv'
 
 // IMPORTS
 const express = require("express"); // Importation du package 'express'
+const helmet = require("helmet"); // Importation du package 'helmet'
 const mongoose = require("mongoose"); // Importation du package 'mongoose'
 const userRoutes = require("./routes/user"); // Importation du 'router' pour le parcours des utilisateurs
 const sauceRoutes = require("./routes/sauce"); // Importation du 'router' pour le parcours des sauces
@@ -25,6 +26,10 @@ mongoose
 
 // Création de l'application 'express'
 const application = express();
+
+// Utilisatuib de 'helmet' sur l'application 'express'
+// application.use(helmet());
+application.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 // Gestion des requêtes 'POST' : Middleware qui permet d'accédé aux corps de la requête
 application.use(express.json()); // Intercepte toutes les requêtes qui ont un content-type json.

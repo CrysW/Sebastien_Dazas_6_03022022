@@ -30,4 +30,8 @@ const storage = multer.diskStorage({
 }); // Création d'un objet de configuration pour 'multer'
 
 // EXPORTS
-module.exports = multer({ storage }).single("image"); // Exportation du middleware multer
+// module.exports = multer({ storage }).single("image"); // Exportation du middleware multer
+module.exports = multer({
+  storage: storage,
+  limits: { fileSize: 2000000 },
+}).single("image"); // Exportation du middleware multer
