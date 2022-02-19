@@ -29,8 +29,8 @@ module.exports = function (request, response, next) {
   // Si le mot de passe n'est pas validé
   if (!passwordSchema.validate(request.body.password)) {
     return response.status(400).json({
-      error:
-        "Le mot de passe doit contenir entre 8 et 15 caractères, avec au moins une majuscule et un chiffre.",
+      message:
+        "Le mot de passe doit contenir entre 8 et 15 caractères, avec au moins une majuscule et un chiffre !",
     });
   } else {
     next();

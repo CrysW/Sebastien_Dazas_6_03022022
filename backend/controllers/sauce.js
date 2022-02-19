@@ -26,7 +26,7 @@ exports.addSauce = function (request, response, next) {
       response.status(201).json({ message: "Sauce ajoutée !" });
     })
     .catch(function (error) {
-      response.status(400).json({ error: error });
+      response.status(400).json({ message: "La sauce n'a pas été ajoutée !" });
     });
 };
 

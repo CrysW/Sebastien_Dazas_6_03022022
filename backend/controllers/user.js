@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken"); // Importation du package 'jsonwebtoken' po
 
 // INSCRIPTION : Middleware pour l'enregistrement de nouveaux utilisateurs
 exports.signup = function (request, response, next) {
-  // Hashage du mot de passe
+  // Hashage du mot de passe avant de l'envoyer dans la base de données
   // En argument 1 : passage du mot de passe du corps de la requête envoyé par le front end
   // En argument 2 : nombre de tous de l'algorythme de cryptage => 10 tours
   bcrypt
@@ -21,14 +21,14 @@ exports.signup = function (request, response, next) {
         email: request.body.email,
         password: hash,
       });
-      // Enregistrement de l'utilisateur dans la base de donnée
+      // Enregistrement de l'utilisateur dans la base de données
       user
         .save()
         .then(function () {
           response.status(201).json({ message: "Utilisateur crée !" });
         })
         .catch(function (error) {
-          response.status(400).json({ error: error });
+          response.status(400).json({ message: "Utilisateur existant !" });
         });
     })
     .catch(function (error) {
@@ -38,12 +38,14 @@ exports.signup = function (request, response, next) {
 
 // CONNEXION : Middleware pour connecter les utilisateurs existants
 exports.login = function (request, response, next) {
-  // Trouver l'utilisateur dans la base de données
+  // Chercher l'utilisateur dans la base de données
   User.findOne({ email: request.body.email })
     .then(function (user) {
       // Utilisateur non trouvé
       if (!user) {
-        return response.status(401).json({ error: "Utilisateur non trouvé !" });
+        return response
+          .status(401)
+          .json({ message: "Utilisateur non trouvé !" });
       }
       // Utilisateur trouvé
       // Comparaison du mot de passe envoyé par l'utilisateur qui essai de se connecter avec le hash qui est enregistré dans la base de données
@@ -55,7 +57,7 @@ exports.login = function (request, response, next) {
           if (!valid) {
             return response
               .status(401)
-              .json({ error: "Mot de passe incorrect !" });
+              .json({ message: "Mot de passe incorrect !" });
           }
           // Le mot de passe correspond
           response.status(200).json({
